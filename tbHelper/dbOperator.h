@@ -82,5 +82,7 @@ public:
 	string getDatabaseTime(void);
 	int getTaskRecordCount(string begin_time, sqlite_int64 task_id);
 	bool getAllCommodity(vector<commodity> & l);
+	bool getAllTask(vector<task> & tl);
+	bool getCommodity(sqlite_int64 id, commodity & c);
 };
 

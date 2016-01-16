@@ -1,4 +1,7 @@
 #pragma once
+#include "afxwin.h"
+
+#include "dbOperator.h"
 
 
 // CTaskInfoDialog 对话框
@@ -18,4 +21,18 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
 
 	DECLARE_MESSAGE_MAP()
+public:
+	BOOL m_random;
+	int m_times;
+	int m_times_1;
+	int m_times_2;
+	int m_times_3;
+	CComboBox m_infos;
+	vector<commodity> cl;
+
+	task result;
+
+	virtual BOOL OnInitDialog();
+	afx_msg void OnBnClickedOk();
+	task & getTask(void);
 };

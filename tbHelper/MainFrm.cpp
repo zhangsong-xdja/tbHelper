@@ -7,6 +7,7 @@
 
 #include "MainFrm.h"
 #include "CommodityInfoDialog.h"
+#include "TaskInfoDialog.h"
 
 #include "tbHelperView.h"
 
@@ -236,6 +237,12 @@ void CMainFrame::OnUpdateShowCommodity(CCmdUI *pCmdUI)
 void CMainFrame::OnCreateTask()
 {
 	// TODO: 在此添加命令处理程序代码
+	CTaskInfoDialog dlg;
+	if(dlg.DoModal() != IDOK)
+		return ;
+
+	task t = dlg.getTask();
+	AfxMessageBox(db.insertTask(t) ? "添加任务成功" : "添加任务失败");
 }
 
 

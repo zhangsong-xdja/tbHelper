@@ -145,7 +145,7 @@ bool dbOperator::insertTask(sqlite_int64 c_id, bool random, int times, int times
 {
 	try{
 		char str_cmd_of_insert_task[128] = {0};
-		sprintf(str_cmd_of_insert_task, "insert into taskRecord (c_id, random, times, times_1, times_2, times_3) values(%lld, %d, %d, %d, %d, %d);", 
+		sprintf(str_cmd_of_insert_task, "insert into task (c_id, random, times, times_1, times_2, times_3) values(%lld, %d, %d, %d, %d, %d);", 
 			c_id, random, times, times_1, times_2, times_3);
 		
 
@@ -167,7 +167,7 @@ bool dbOperator::insertCommodity(commodity c)
 
 bool dbOperator::insertTask(task t)
 {
-	return insertTask(t.id, t.random, t.times, t.times_1, t.times_2, t.times_3);
+	return insertTask(t.c.id, t.random, t.times, t.times_1, t.times_2, t.times_3);
 }
 
 
@@ -328,5 +328,97 @@ bool dbOperator::getAllCommodity(vector<commodity> & l)
 	{
 		cerr << e.errorCode() << ":" << e.errorMessage() << endl;
 	}
+	return false;
+}
+
+
+bool dbOperator::getAllTask(vector<task> & tl)
+{
+	try{
+		char str_cmd_of_query_all_task[128] = {0};
+		sprintf(str_cmd_of_query_all_task, "select id, c_id, random, times, times_1, times_2, times_3 from task;");
+
+		CppSQLite3Query q3 = db.execQuery(str_cmd_of_query_all_task);
+
+		if(q3.numFields() != 7 || q3.eof())
+			return false;
+
+		vector<string> namelist;
+		while(!q3.eof())
+		{
+			task t;
+
+			t.id = q3.getInt64Field("id", -1);
+			t.random = q3.getIntField("random", 0) != 0;
+			t.times = q3.getIntField("times", -1);
+			t.times_1 = q3.getIntField("times_1", -1);
+			t.times_2 = q3.getIntField("times_2", -1);
+			t.times_3 = q3.getIntField("times_3", -1);
+			t.c.id = q3.getIntField("c_id", -1);
+
+			if(!getCommodity(t.c.id, t.c))
+				return false;
+
+			tl.push_back(t);
+
+			q3.nextRow();
+		}
+	}
+	catch (CppSQLite3Exception & e)
+	{
+		cerr << e.errorCode() << ":" << e.errorMessage() << endl;
+	}
+	return false;
+}
+
+
+bool dbOperator::getCommodity(sqlite_int64 id, commodity & c)
+{
+	try{
+		
+		char str_cmd_of_query_commodity[128] = {0};
+		sprintf(str_cmd_of_query_commodity, "select id from commodity where id = %lld", id);
+		
+		CppSQLite3Query q = db.execQuery(str_cmd_of_query_commodity);
+		if(q.numFields() != 1 || q.eof())
+			return false;
+
+		sqlite_int64 id = q.getInt64Field("id", -1);
+		if(id < 0)
+			return false;
+
+		c.id = id;
+
+		char str_cmd_query_condition[128] = {0};
+		sprintf(str_cmd_query_condition, "select condition from condition where c_id = %lld;", id);
+		CppSQLite3Query q2 = db.execQuery(str_cmd_query_condition);
+		if(q2.numFields() != 1 || q2.eof())
+			return false;
+
+		while(!q2.eof())
+		{
+			c.conditions.push_back(q2.getStringField("condition"));
+			q2.nextRow();
+		}
+
+		char str_cmd_of_query_match[128] = {0};
+		sprintf(str_cmd_of_query_match, "select match from match where c_id = %lld;", id);
+		CppSQLite3Query q3 = db.execQuery(str_cmd_of_query_match);
+		if(q3.numFields() != 1 || q3.eof())
+			return false;
+
+		while(!q3.eof())
+		{
+			c.matchs.push_back(q3.getStringField("match"));
+			q3.nextRow();
+		}
+
+		return true;
+	}
+	catch (CppSQLite3Exception & e)
+	{
+		cerr << e.errorCode() << ":" << e.errorMessage() << endl;
+	}
+
 	return false;
 }

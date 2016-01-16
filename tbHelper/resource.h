@@ -20,7 +20,6 @@
 #define ID_VIEW_APPLOOK_WINDOWS_7       219
 #define IDD_DIALOG_COMMODITY_INFO       310
 #define IDD_DIALOG_INPUT                311
-#define IDD_DIALOG1                     312
 #define IDD_DIALOG_TASK_INFO            312
 #define IDC_EDIT_NAME                   1000
 #define IDC_LIST1                       1001
