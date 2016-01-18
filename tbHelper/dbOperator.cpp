@@ -363,6 +363,8 @@ bool dbOperator::getAllTask(vector<task> & tl)
 
 			q3.nextRow();
 		}
+
+		return true;
 	}
 	catch (CppSQLite3Exception & e)
 	{
@@ -377,17 +379,14 @@ bool dbOperator::getCommodity(sqlite_int64 id, commodity & c)
 	try{
 		
 		char str_cmd_of_query_commodity[128] = {0};
-		sprintf(str_cmd_of_query_commodity, "select id from commodity where id = %lld", id);
+		sprintf(str_cmd_of_query_commodity, "select name from commodity where id = %lld", id);
 		
 		CppSQLite3Query q = db.execQuery(str_cmd_of_query_commodity);
 		if(q.numFields() != 1 || q.eof())
 			return false;
 
-		sqlite_int64 id = q.getInt64Field("id", -1);
-		if(id < 0)
-			return false;
-
 		c.id = id;
+		c.name = q.getStringField("name");
 
 		char str_cmd_query_condition[128] = {0};
 		sprintf(str_cmd_query_condition, "select condition from condition where c_id = %lld;", id);

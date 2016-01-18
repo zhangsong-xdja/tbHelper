@@ -255,6 +255,15 @@ void CMainFrame::OnUpdateCreateTask(CCmdUI *pCmdUI)
 void CMainFrame::OnShowTask()
 {
 	// TODO: 在此添加命令处理程序代码
+	vector<task> tl;
+	if(!db.getAllTask(tl))
+	{
+		AfxMessageBox("查询所有任务失败");
+		return ;
+	}
+
+	CtbHelperView * pview = (CtbHelperView *)GetActiveView();
+	pview->showTask(tl);
 }
 
 

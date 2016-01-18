@@ -42,6 +42,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	void showCommodity(vector<commodity> & cl);
+	void showTask(vector<task> & tl);
 };
 
 #ifndef _DEBUG  // tbHelperView.cpp 中的调试版本

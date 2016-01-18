@@ -134,3 +134,46 @@ void CtbHelperView::showCommodity(vector<commodity> & cl)
 		l.SetItemText(i, 3, matchs);
 	}
 }
+
+
+void CtbHelperView::showTask(vector<task> & tl)
+{
+	CListCtrl & l = GetListCtrl();
+
+	l.DeleteAllItems();
+
+	while ( l.DeleteColumn (0));
+
+	l.InsertColumn(0, "任务ID", LVCFMT_CENTER, 88);
+	l.InsertColumn(1, "商品名称", LVCFMT_CENTER, 68);
+	l.InsertColumn(2, "是否随机浏览商品", LVCFMT_CENTER, 188);
+	l.InsertColumn(3, "商品浏览次数", LVCFMT_CENTER, 88);
+	l.InsertColumn(4, "商品详情翻动次数", LVCFMT_CENTER, 188);
+	l.InsertColumn(5, "商品评价翻动次数", LVCFMT_CENTER, 188);
+	l.InsertColumn(6, "随机商品翻动次数", LVCFMT_CENTER, 188);
+
+	for(int i = 0; i < tl.size(); i++)
+	{
+		CString tmp;
+
+		tmp.Format("%lld", tl[i].id);
+		l.InsertItem(i, tmp);
+
+		l.SetItemText(i, 1, tl[i].c.name.c_str());
+
+		tmp.Format("%s", tl[i].random == 0 ? "不随机浏览" : "随机浏览");
+		l.SetItemText(i, 2, tmp);
+
+		tmp.Format("%d", tl[i].times);
+		l.SetItemText(i, 3, tmp);
+
+		tmp.Format("%d", tl[i].times_1);
+		l.SetItemText(i, 4, tmp);
+
+		tmp.Format("%d", tl[i].times_2);
+		l.SetItemText(i, 5, tmp);
+
+		tmp.Format("%d", tl[i].times_3);
+		l.SetItemText(i, 6, tmp);
+	}
+}
