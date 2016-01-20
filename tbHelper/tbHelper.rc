@@ -113,9 +113,11 @@ BEGIN
     POPUP "操作(&D)"
     BEGIN
         MENUITEM "创建商品",                        ID_CREATE_COMMODITY
+        MENUITEM "删除任务",                        ID_DELETE_COMMODITY
         MENUITEM "显示商品",                        ID_SHOW_COMMODITY
         MENUITEM SEPARATOR
         MENUITEM "创建任务",                        ID_CREATE_TASK
+        MENUITEM "删除任务",                        32785
         MENUITEM "显示任务",                        ID_SHOW_TASK
         MENUITEM SEPARATOR
         MENUITEM "显示任务记录",                      ID_SHOW_TASKRECORD

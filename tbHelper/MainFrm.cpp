@@ -37,6 +37,10 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_RUN_TASK, &CMainFrame::OnUpdateRunTask)
 	ON_COMMAND(ID_STOP_TASK, &CMainFrame::OnStopTask)
 	ON_UPDATE_COMMAND_UI(ID_STOP_TASK, &CMainFrame::OnUpdateStopTask)
+	ON_COMMAND(ID_DELETE_COMMODITY, &CMainFrame::OnDeleteCommodity)
+	ON_UPDATE_COMMAND_UI(ID_DELETE_COMMODITY, &CMainFrame::OnUpdateDeleteCommodity)
+	ON_COMMAND(ID_DELETE_TASK, &CMainFrame::OnDeleteTask)
+	ON_UPDATE_COMMAND_UI(ID_DELETE_TASK, &CMainFrame::OnUpdateDeleteTask)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -304,6 +308,38 @@ void CMainFrame::OnStopTask()
 
 
 void CMainFrame::OnUpdateStopTask(CCmdUI *pCmdUI)
+{
+	// TODO: 在此添加命令更新用户界面处理程序代码
+}
+
+
+void CMainFrame::OnDeleteCommodity()
+{
+	// TODO: 在此添加命令处理程序代码
+	CtbHelperView * pview = (CtbHelperView *)GetActiveView();
+
+	if(pview->getSelectedCommodityID() >= 0)
+		db.deleteCommodity(pview->getSelectedCommodityID());
+}
+
+
+void CMainFrame::OnUpdateDeleteCommodity(CCmdUI *pCmdUI)
+{
+	// TODO: 在此添加命令更新用户界面处理程序代码
+}
+
+
+void CMainFrame::OnDeleteTask()
+{
+	// TODO: 在此添加命令处理程序代码
+	CtbHelperView * pview = (CtbHelperView *)GetActiveView();
+
+	if(pview->getSelectedTaskID() >= 0)
+		db.deleteCommodity(pview->getSelectedTaskID());
+}
+
+
+void CMainFrame::OnUpdateDeleteTask(CCmdUI *pCmdUI)
 {
 	// TODO: 在此添加命令更新用户界面处理程序代码
 }

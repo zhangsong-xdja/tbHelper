@@ -58,6 +58,10 @@ public:
 	afx_msg void OnUpdateRunTask(CCmdUI *pCmdUI);
 	afx_msg void OnStopTask();
 	afx_msg void OnUpdateStopTask(CCmdUI *pCmdUI);
+	afx_msg void OnDeleteCommodity();
+	afx_msg void OnUpdateDeleteCommodity(CCmdUI *pCmdUI);
+	afx_msg void OnDeleteTask();
+	afx_msg void OnUpdateDeleteTask(CCmdUI *pCmdUI);
 };
 
 

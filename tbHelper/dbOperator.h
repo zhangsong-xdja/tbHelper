@@ -84,5 +84,7 @@ public:
 	bool getAllCommodity(vector<commodity> & l);
 	bool getAllTask(vector<task> & tl);
 	bool getCommodity(sqlite_int64 id, commodity & c);
+	bool deleteTask(int id);
+	bool deleteCommodity(int id);
 };
 

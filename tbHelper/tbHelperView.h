@@ -37,12 +37,23 @@ public:
 
 protected:
 
+	enum ViewStates
+	{
+		STAT_NULL,
+		STAT_COMMODITY,
+		STAT_TASK,
+		STAT_TASKRECORD,
+		STAT_MAX
+	} m_currentState;
+
 // 生成的消息映射函数
 protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	void showCommodity(vector<commodity> & cl);
 	void showTask(vector<task> & tl);
+	int getSelectedCommodityID(void);
+	int getSelectedTaskID(void);
 };
 
 #ifndef _DEBUG  // tbHelperView.cpp 中的调试版本

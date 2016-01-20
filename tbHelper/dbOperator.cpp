@@ -421,3 +421,46 @@ bool dbOperator::getCommodity(sqlite_int64 id, commodity & c)
 
 	return false;
 }
+
+
+bool dbOperator::deleteTask(int id)
+{
+	try{
+		char str_cmd_of_delete_task[128] = {0};
+		sprintf(str_cmd_of_delete_task, "delete from task where id = %d;", id);
+
+		db.execDML(str_cmd_of_delete_task);
+		
+		return true;
+	}
+	catch (CppSQLite3Exception & e)
+	{
+		cerr << e.errorCode() << ":" << e.errorMessage() << endl;
+	}
+
+	return false;
+}
+
+
+bool dbOperator::deleteCommodity(int id)
+{
+	try{
+		char str_cmd_of_delete_task[128] = {0};
+		sprintf(str_cmd_of_delete_task, "delete from task where c_id = %d;", id);
+
+		db.execDML(str_cmd_of_delete_task);
+
+		char str_cmd_of_delete_commodity[128] = {0};
+		sprintf(str_cmd_of_delete_commodity, "delete from commodity where id = %d;", id);
+
+		db.execDML(str_cmd_of_delete_commodity);
+		
+		return true;
+	}
+	catch (CppSQLite3Exception & e)
+	{
+		cerr << e.errorCode() << ":" << e.errorMessage() << endl;
+	}
+
+	return false;
+}

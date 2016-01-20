@@ -67,6 +67,8 @@ void CtbHelperView::OnInitialUpdate()
 		dwStyle |= LVS_EX_CHECKBOXES;//item前生成checkbox控件
 		m_list.SetExtendedStyle(dwStyle); //设置扩展风格
 	}
+
+	m_currentState = STAT_NULL;
 }
 
 
@@ -96,6 +98,8 @@ CtbHelperDoc* CtbHelperView::GetDocument() const // 非调试版本是内联的
 
 void CtbHelperView::showCommodity(vector<commodity> & cl)
 {
+	m_currentState = STAT_COMMODITY;
+
 	CListCtrl & l = GetListCtrl();
 
 	l.DeleteAllItems();
@@ -138,6 +142,8 @@ void CtbHelperView::showCommodity(vector<commodity> & cl)
 
 void CtbHelperView::showTask(vector<task> & tl)
 {
+	m_currentState = STAT_TASK;
+
 	CListCtrl & l = GetListCtrl();
 
 	l.DeleteAllItems();
@@ -176,4 +182,43 @@ void CtbHelperView::showTask(vector<task> & tl)
 		tmp.Format("%d", tl[i].times_3);
 		l.SetItemText(i, 6, tmp);
 	}
+}
+
+
+int CtbHelperView::getSelectedCommodityID(void)
+{
+	if(m_currentState != STAT_COMMODITY)
+		return -1;
+	
+	CListCtrl & l = GetListCtrl();
+
+	for(int i=0; i<l.GetItemCount(); i++)
+	{
+		if( l.GetCheck(i))
+		{
+			return i;
+		}
+	}
+
+	return -1;
+}
+
+
+int CtbHelperView::getSelectedTaskID(void)
+{
+	if(m_currentState != STAT_TASK)
+		return -1;
+	
+	CListCtrl & l = GetListCtrl();
+
+	for(int i=0; i<l.GetItemCount(); i++)
+	{
+		if( l.GetCheck(i))
+		{
+			return i;
+		}
+	}
+
+	return -1;
+
 }
