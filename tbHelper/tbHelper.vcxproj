@@ -114,6 +114,9 @@
     <ClInclude Include="tbHelper.h" />
     <ClInclude Include="tbHelperDoc.h" />
     <ClInclude Include="tbHelperView.h" />
+    <ClInclude Include="tinyxml2.h" />
+    <ClInclude Include="WorkdInfoDialog.h" />
+    <ClInclude Include="WorkInfoCreator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Common\CppSQLite3.cpp">
@@ -133,6 +136,11 @@
     <ClCompile Include="tbHelper.cpp" />
     <ClCompile Include="tbHelperDoc.cpp" />
     <ClCompile Include="tbHelperView.cpp" />
+    <ClCompile Include="tinyxml2.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="WorkdInfoDialog.cpp" />
+    <ClCompile Include="WorkInfoCreator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="tbHelper.rc" />

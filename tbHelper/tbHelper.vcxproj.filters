@@ -54,6 +54,15 @@
     <ClInclude Include="TaskInfoDialog.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="WorkdInfoDialog.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="tinyxml2.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="WorkInfoCreator.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tbHelper.cpp">
@@ -84,6 +93,15 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="TaskInfoDialog.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="WorkdInfoDialog.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml2.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="WorkInfoCreator.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
