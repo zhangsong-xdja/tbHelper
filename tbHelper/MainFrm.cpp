@@ -8,6 +8,7 @@
 #include "MainFrm.h"
 #include "CommodityInfoDialog.h"
 #include "TaskInfoDialog.h"
+#include "WorkdInfoDialog.h"
 
 #include "tbHelperView.h"
 
@@ -288,6 +289,9 @@ void CMainFrame::OnUpdateShowTaskrecord(CCmdUI *pCmdUI)
 void CMainFrame::OnRunTask()
 {
 	// TODO: 在此添加命令处理程序代码
+	task t;
+	CWorkdInfoDialog dlg(t);
+	dlg.DoModal();
 }
 
 

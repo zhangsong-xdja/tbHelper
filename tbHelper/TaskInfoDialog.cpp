@@ -20,6 +20,7 @@ CTaskInfoDialog::CTaskInfoDialog(CWnd* pParent /*=NULL*/)
 	, m_times_1(15)
 	, m_times_2(10)
 	, m_times_3(5)
+	, taskName(_T("≤‚ ‘»ŒŒÒ"))
 {
 
 }
@@ -41,6 +42,8 @@ void CTaskInfoDialog::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT4, m_times_3);
 	DDV_MinMaxInt(pDX, m_times_3, 1, 600);
 	DDX_Control(pDX, IDC_COMBO1, m_infos);
+	DDX_Text(pDX, IDC_EDIT5, taskName);
+	DDV_MaxChars(pDX, taskName, 60);
 }
 
 
@@ -86,6 +89,7 @@ void CTaskInfoDialog::OnBnClickedOk()
 	}
 	UpdateData();
 
+	result.name = taskName.GetBuffer(0);
 	result.c.id = cl[index].id;
 	result.c.name = cl[index].name;
 	result.random = m_random;

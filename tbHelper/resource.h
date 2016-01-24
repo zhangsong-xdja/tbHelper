@@ -21,10 +21,13 @@
 #define IDD_DIALOG_COMMODITY_INFO       310
 #define IDD_DIALOG_INPUT                311
 #define IDD_DIALOG_TASK_INFO            312
+#define IDD_DIALOG1                     313
+#define IDD_DIALOG_WORK_INFO            313
 #define IDC_EDIT_NAME                   1000
 #define IDC_LIST1                       1001
 #define IDC_LIST2                       1002
 #define IDC_BUTTON_ADD_CONDITION        1003
+#define IDC_LIST3                       1003
 #define IDC_EDIT1                       1004
 #define IDC_BUTTON_DEL_CONDITION        1005
 #define IDC_CHECK1                      1005
@@ -34,6 +37,10 @@
 #define IDC_EDIT3                       1007
 #define IDC_EDIT4                       1008
 #define IDC_COMBO1                      1009
+#define IDC_EDIT6                       1009
+#define IDC_EDIT5                       1010
+#define IDC_PROGRESS1                   1010
+#define IDC_EDIT7                       1011
 #define ID_Menu                         32771
 #define ID_CREATE_COMMODITY             32772
 #define ID_32773                        32773
@@ -51,9 +58,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        313
+#define _APS_NEXT_RESOURCE_VALUE        314
 #define _APS_NEXT_COMMAND_VALUE         32783
-#define _APS_NEXT_CONTROL_VALUE         1010
+#define _APS_NEXT_CONTROL_VALUE         1011
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
 #endif

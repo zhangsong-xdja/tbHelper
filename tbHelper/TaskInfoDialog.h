@@ -35,4 +35,5 @@ public:
 	virtual BOOL OnInitDialog();
 	afx_msg void OnBnClickedOk();
 	task & getTask(void);
+	CString taskName;
 };
