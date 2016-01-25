@@ -42,7 +42,7 @@ void dbOperator::createDatabase(void)
 		times_2是评论翻动次数
 		times_3是随机浏览商品翻动次数
 	*/
-	const char * str_cmd_of_create_task_table = "create table if not exists task(id integer primary key, c_id integer, random boolean, times integer, times_1 integer, "
+	const char * str_cmd_of_create_task_table = "create table if not exists task(id integer primary key, name string unique, c_id integer, random boolean, times integer, times_1 integer, "
 		"times_2 integer, times_3 integer);";
 
 	/*
@@ -141,12 +141,12 @@ bool dbOperator::recordTask(sqlite_int64 task_id, string begin_time, bool status
 }
 
 
-bool dbOperator::insertTask(sqlite_int64 c_id, bool random, int times, int times_1, int times_2, int times_3)
+bool dbOperator::insertTask(string name, sqlite_int64 c_id, bool random, int times, int times_1, int times_2, int times_3)
 {
 	try{
 		char str_cmd_of_insert_task[128] = {0};
-		sprintf(str_cmd_of_insert_task, "insert into task (c_id, random, times, times_1, times_2, times_3) values(%lld, %d, %d, %d, %d, %d);", 
-			c_id, random, times, times_1, times_2, times_3);
+		sprintf(str_cmd_of_insert_task, "insert into task (name, c_id, random, times, times_1, times_2, times_3) values('%s', %lld, %d, %d, %d, %d, %d);", 
+			name.c_str(), c_id, random, times, times_1, times_2, times_3);
 		
 
 		return db.execDML(str_cmd_of_insert_task) > 0;
@@ -167,7 +167,7 @@ bool dbOperator::insertCommodity(commodity c)
 
 bool dbOperator::insertTask(task t)
 {
-	return insertTask(t.c.id, t.random, t.times, t.times_1, t.times_2, t.times_3);
+	return insertTask(t.name, t.c.id, t.random, t.times, t.times_1, t.times_2, t.times_3);
 }
 
 
@@ -231,9 +231,9 @@ bool dbOperator::getTask(string name, task & t)
 			return false;
 
 		char str_cmd_of_query_task[128] = {0};
-		sprintf(str_cmd_of_query_task, "select id, random, times, times_1, times_2, times_3 from task where c_id = %lld", t.c.id);
+		sprintf(str_cmd_of_query_task, "select id, random, times, times_1, times_2, times_3, name from task where c_id = %lld", t.c.id);
 		CppSQLite3Query q = db.execQuery(str_cmd_of_query_task);
-		if(q.numFields() != 6 || q.eof())
+		if(q.numFields() != 7 || q.eof())
 			return false;
 
 		t.id = q.getInt64Field("id", -1);
@@ -242,6 +242,7 @@ bool dbOperator::getTask(string name, task & t)
 		t.times_1 = q.getIntField("times_1", -1);
 		t.times_2 = q.getIntField("times_2", -1);
 		t.times_3 = q.getIntField("times_3", -1);
+		t.name = q.getStringField("name");
 
 		return true;
 	}
@@ -336,11 +337,11 @@ bool dbOperator::getAllTask(vector<task> & tl)
 {
 	try{
 		char str_cmd_of_query_all_task[128] = {0};
-		sprintf(str_cmd_of_query_all_task, "select id, c_id, random, times, times_1, times_2, times_3 from task;");
+		sprintf(str_cmd_of_query_all_task, "select id, c_id, random, times, times_1, times_2, times_3, name from task;");
 
 		CppSQLite3Query q3 = db.execQuery(str_cmd_of_query_all_task);
 
-		if(q3.numFields() != 7 || q3.eof())
+		if(q3.numFields() != 8 || q3.eof())
 			return false;
 
 		vector<string> namelist;
@@ -355,9 +356,16 @@ bool dbOperator::getAllTask(vector<task> & tl)
 			t.times_2 = q3.getIntField("times_2", -1);
 			t.times_3 = q3.getIntField("times_3", -1);
 			t.c.id = q3.getIntField("c_id", -1);
+			t.name = q3.getStringField("name");
 
 			if(!getCommodity(t.c.id, t.c))
 				return false;
+
+			int rop = getTaskRecordCountByID(t.id);
+			if(rop < 0)
+				return false;
+
+			t.rate_of_progress = (double)rop / t.times * 100;
 
 			tl.push_back(t);
 
@@ -441,6 +449,26 @@ bool dbOperator::deleteTask(int id)
 	return false;
 }
 
+int dbOperator::getTaskRecordCountByID(sqlite_int64 id)
+{
+	try{
+		char str_cmd_of_get_record_count_by_id[128] = {0};
+		sprintf(str_cmd_of_get_record_count_by_id, "select count(*) from taskRecord where task_id = %lld;", id);
+
+		CppSQLite3Query q = db.execQuery(str_cmd_of_get_record_count_by_id);
+		if(q.numFields() != 1 || q.eof())
+			return -1;
+
+		return q.getIntField(0, -1);
+	}
+	catch (CppSQLite3Exception & e)
+	{
+		cerr << e.errorCode() << ":" << e.errorMessage() << endl;
+	}
+
+	return -1;
+}
+
 
 bool dbOperator::deleteCommodity(int id)
 {
@@ -462,5 +490,10 @@ bool dbOperator::deleteCommodity(int id)
 		cerr << e.errorCode() << ":" << e.errorMessage() << endl;
 	}
 
+	return false;
+}
+
+bool dbOperator::getTaskRecordByID(sqlite_int64 id)
+{
 	return false;
 }

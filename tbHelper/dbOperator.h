@@ -44,17 +44,25 @@ public:
 
 	commodity c;
 
+	string name;
 	int times;
 	bool random;
 	int times_1;
 	int times_2;
 	int times_3;
 
+	int rate_of_progress;
+
 	void show()
 	{
 		cout << "task_id : [" << id << "|" << times << "|" << random << "|" << times_1 << "|" << times_2 << "|" <<  times_3 << "]" << endl;
 		c.show();
 	}
+};
+
+class taskRecord
+{
+public :
 };
 
 class dbOperator
@@ -71,7 +79,7 @@ private:
 public:
 	bool insertCommodity(string name, vector<string> conditions, vector<string> matchs);
 	bool recordTask(sqlite_int64 task_id, string begin_time, bool status, string describe);
-	bool insertTask(sqlite_int64 c_id, bool random, int times, int times_1, int times_2, int times_3);
+	bool insertTask(string name, sqlite_int64 c_id, bool random, int times, int times_1, int times_2, int times_3);
 
 	bool insertCommodity(commodity c);
 	bool insertTask(task t);
@@ -86,5 +94,7 @@ public:
 	bool getCommodity(sqlite_int64 id, commodity & c);
 	bool deleteTask(int id);
 	bool deleteCommodity(int id);
+	int getTaskRecordCountByID(sqlite_int64 id);
+	bool getTaskRecordByID(sqlite_int64 id);
 };
 
