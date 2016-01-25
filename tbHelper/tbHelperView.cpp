@@ -136,6 +136,8 @@ void CtbHelperView::showCommodity(vector<commodity> & cl)
 				matchs += ";";
 		}
 		l.SetItemText(i, 3, matchs);
+
+		l.SetItemData(i, cl[i].id);
 	}
 }
 
@@ -188,6 +190,8 @@ void CtbHelperView::showTask(vector<task> & tl)
 		l.SetItemText(i, 7, tmp);
 
 		l.SetItemText(i, 8, tl[i].c.name.c_str());
+
+		l.SetItemData(i, tl[i].id);
 	}
 }
 
@@ -203,7 +207,7 @@ int CtbHelperView::getSelectedCommodityID(void)
 	{
 		if( l.GetCheck(i))
 		{
-			return i;
+			return l.GetItemData(i);
 		}
 	}
 
@@ -222,7 +226,7 @@ int CtbHelperView::getSelectedTaskID(void)
 	{
 		if( l.GetCheck(i))
 		{
-			return i;
+			return l.GetItemData(i);
 		}
 	}
 
