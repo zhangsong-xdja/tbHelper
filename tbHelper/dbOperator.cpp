@@ -497,3 +497,34 @@ bool dbOperator::getTaskRecordByID(sqlite_int64 id)
 {
 	return false;
 }
+
+
+bool dbOperator::getTask(int ID, task & t)
+{
+	try{
+		char str_cmd_of_query_task[128] = {0};
+		sprintf(str_cmd_of_query_task, "select id, random, times, times_1, times_2, times_3, name, c_id from task where id = %d;", ID);
+		CppSQLite3Query q = db.execQuery(str_cmd_of_query_task);
+		if(q.numFields() != 8 || q.eof())
+			return false;
+
+		t.id = q.getInt64Field("id", -1);
+		t.random = q.getIntField("random", 0) != 0;
+		t.times = q.getIntField("times", -1);
+		t.times_1 = q.getIntField("times_1", -1);
+		t.times_2 = q.getIntField("times_2", -1);
+		t.times_3 = q.getIntField("times_3", -1);
+		t.name = q.getStringField("name");
+		t.c.id = q.getIntField("c_id", -1);
+
+		if(!getCommodity(t.c.id, t.c))
+			return false;
+
+		return true;
+	}
+	catch (CppSQLite3Exception & e)
+	{
+		cerr << e.errorCode() << ":" << e.errorMessage() << endl;
+	}
+	return false;
+}

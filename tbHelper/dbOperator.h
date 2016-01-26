@@ -96,5 +96,6 @@ public:
 	bool deleteCommodity(int id);
 	int getTaskRecordCountByID(sqlite_int64 id);
 	bool getTaskRecordByID(sqlite_int64 id);
+	bool getTask(int ID, task & t);
 };
 

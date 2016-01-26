@@ -294,7 +294,20 @@ void CMainFrame::OnUpdateShowTaskrecord(CCmdUI *pCmdUI)
 void CMainFrame::OnRunTask()
 {
 	// TODO: 在此添加命令处理程序代码
+	CtbHelperView * pview = (CtbHelperView *)GetActiveView();
+	int id = pview->getSelectedTaskID();
+	if(id <= 0)
+	{
+		AfxMessageBox("必须是有效的taskID");
+		return ;
+	}
 	task t;
+	if(!db.getTask(id, t))
+	{
+		AfxMessageBox("获取task失败！");
+		return ;
+	}
+
 //	CWorkdInfoDialog dlg(t);
 //	dlg.DoModal();
 

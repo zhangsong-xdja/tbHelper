@@ -115,7 +115,7 @@ std::string& wstring2utf8string( const std::wstring& _wstr, std::string& _str )
 bool WorkInfoCreator::create(task & t)
 {
 	//先检测任务信息
-	/*
+	
 	if(t.id <= 0)
 		return false;
 	if(t.c.id <= 0)
@@ -128,31 +128,31 @@ bool WorkInfoCreator::create(task & t)
 		return false;
 	if(t.c.matchs.size() <= 0)
 		return false;
-		*/
+		
 	//开始生成xml（此时还不是utf8）
 	tinyxml2::XMLDocument *doc = new tinyxml2::XMLDocument();
 
-    // use the standard declaration by default
     XMLDeclaration *declaration = doc->NewDeclaration();
     doc->InsertFirstChild(declaration);
 
-    // insert 'element' node
-    XMLNode *element = doc->InsertEndChild(doc->NewElement("element"));
+	XMLElement * Commodity = doc->NewElement("Commodity");
+	XMLNode *element = doc->InsertEndChild(Commodity);
+	Commodity->SetAttribute("id", (int)t.id);
 
-	XMLNode * conditions = element->InsertEndChild(doc->NewElement("conditions"));
-	for(int i = 0; i < 3; i++)
+	XMLNode * conditions = element->InsertEndChild(doc->NewElement("SearchCondition"));
+	for(int i = 0; i < t.c.conditions.size(); i++)
 	{
-		XMLElement *sub = doc->NewElement("subcondition");
-		XMLText *text = doc->NewText("测试用 匹配关键字");
+		XMLElement *sub = doc->NewElement("SubSearchCondition");
+		XMLText *text = doc->NewText(t.c.conditions[i].c_str());
 		sub->InsertFirstChild(text);
 		conditions->InsertEndChild(sub);
 	}
 
-	XMLNode * matchs = element->InsertEndChild(doc->NewElement("matchs"));
-	for(int i = 0; i < 3; i++)
+	XMLNode * matchs = element->InsertEndChild(doc->NewElement("Match"));
+	for(int i = 0; i < t.c.matchs.size(); i++)
 	{
-		XMLElement *sub = doc->NewElement("submatch");
-		XMLText *text = doc->NewText("测试用 搜索关键字");
+		XMLElement *sub = doc->NewElement("SubMatch");
+		XMLText *text = doc->NewText(t.c.matchs[i].c_str());
 		sub->InsertFirstChild(text);
 		matchs->InsertEndChild(sub);
 	}
@@ -160,7 +160,7 @@ bool WorkInfoCreator::create(task & t)
 	{
 		XMLNode * times = element->InsertEndChild(doc->NewElement("times"));
 		CString tmp;
-		tmp.Format("%d", 10);
+		tmp.Format("%d", t.times);
 		XMLText *text = doc->NewText(tmp.GetBuffer(0));
 		times->InsertEndChild(text);
 	}
