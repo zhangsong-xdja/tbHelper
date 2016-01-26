@@ -114,6 +114,22 @@ std::string& wstring2utf8string( const std::wstring& _wstr, std::string& _str )
 
 bool WorkInfoCreator::create(task & t)
 {
+	//先检测任务信息
+	/*
+	if(t.id <= 0)
+		return false;
+	if(t.c.id <= 0)
+		return false;
+	if(t.name.length() <= 0)
+		return false;
+	if(t.c.name.length() <= 0)
+		return false;
+	if(t.c.conditions.size() <= 0)
+		return false;
+	if(t.c.matchs.size() <= 0)
+		return false;
+		*/
+	//开始生成xml（此时还不是utf8）
 	tinyxml2::XMLDocument *doc = new tinyxml2::XMLDocument();
 
     // use the standard declaration by default
@@ -141,44 +157,47 @@ bool WorkInfoCreator::create(task & t)
 		matchs->InsertEndChild(sub);
 	}
 
-	XMLElement *random = doc->NewElement("random");
-	random->SetAttribute("value", 1);
-	element->InsertEndChild(random);
+	{
+		XMLNode * times = element->InsertEndChild(doc->NewElement("times"));
+		CString tmp;
+		tmp.Format("%d", 10);
+		XMLText *text = doc->NewText(tmp.GetBuffer(0));
+		times->InsertEndChild(text);
+	}
 
-	XMLElement *times = doc->NewElement("times");
-	times->SetAttribute("value", 2);
-	element->InsertEndChild(times);
+	{
+		XMLNode * Address = element->InsertEndChild(doc->NewElement("Address"));
+		//CString tmp;
+		//tmp.Format("%d", 10);
+		//XMLText *text = doc->NewText(tmp.GetBuffer(0));
+		//Address->InsertEndChild(text);
+	}
 
-	XMLElement *times_1 = doc->NewElement("times_1");
-	times_1->SetAttribute("value", 2);
-	element->InsertEndChild(times_1);
+	{
+		XMLNode * Price = element->InsertEndChild(doc->NewElement("Price"));
+		//CString tmp;
+		//tmp.Format("%d", 10);
+		//XMLText *text = doc->NewText(tmp.GetBuffer(0));
+		//Price->InsertEndChild(text);
+	}
 
-	XMLElement *times_2 = doc->NewElement("times_2");
-	times_2->SetAttribute("value", 2);
-	element->InsertEndChild(times_2);
+	{
+		XMLNode * Postfee = element->InsertEndChild(doc->NewElement("Postfee"));
+		//CString tmp;
+		//tmp.Format("%d", 10);
+		//XMLText *text = doc->NewText(tmp.GetBuffer(0));
+		//Postfee->InsertEndChild(text);
+	}
 
-	XMLElement *times_3 = doc->NewElement("times_3");
-	times_3->SetAttribute("value", 2);
-	element->InsertEndChild(times_3);
+	{
+		XMLNode * Goon = element->InsertEndChild(doc->NewElement("Goon"));
+		CString tmp;
+		tmp.Format("%s", "TRUE");
+		XMLText *text = doc->NewText(tmp.GetBuffer(0));
+		Goon->InsertEndChild(text);
+	}
 
-
-	/*
-    for (int i = 0; i < 7; ++i) {
-        XMLElement *sub = doc->NewElement(des[i]);
-        //sub->SetAttribute("attr", i+1);
-        element->InsertEndChild(sub);
-        subs[i] = sub;
-    }*/
-
-    // insert text to 3rd 'sub' node
- //   XMLText *text = doc->NewText("& Text!");
-    // text->SetCData(true);  // <![CDATA[& Text!]]>
- //   subs[2]->InsertFirstChild(text);
-
-
-    // save xml, true for compact
-    //XMLError error = doc->SaveFile("./work.xml", true);
-
+	//xml转换为UTF8格式进行存储
 	XMLPrinter printer;
 	doc->Accept(&printer);
 
@@ -190,13 +209,10 @@ bool WorkInfoCreator::create(task & t)
 
 	CFile theFile; 
 	theFile.Open(_T("./work.xml"),CFile::modeCreate|CFile::modeWrite); 
-	//theFile.Write(&UTF8BOM,3); 
 	theFile.Write((LPCSTR)param_utf8.c_str(),param_utf8.length()); 
 	theFile.Close(); 
 
-
-
     delete doc;
 
-	return false;
+	return true;
 }
