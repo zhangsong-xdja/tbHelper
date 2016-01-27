@@ -19,7 +19,7 @@ AndroidDebugBridge::~AndroidDebugBridge(void)
 }
 
 
-bool AndroidDebugBridge::run(const char * args)
+bool AndroidDebugBridge::run()
 {
 	char Buffer[4096];  
     STARTUPINFO sInfo;  
@@ -45,7 +45,7 @@ bool AndroidDebugBridge::run(const char * args)
     sInfo.hStdOutput = hWrite;  
     memset(&pInfo, 0, sizeof(pInfo));  
   
-    if(!CreateProcess((LPSTR)adbPath, (LPSTR)args, NULL, NULL, TRUE, 0, NULL, NULL, &sInfo, &pInfo)) //创建子进程  
+	if(!CreateProcess((LPSTR)adbPath, (LPSTR)getCommand(), NULL, NULL, TRUE, 0, NULL, NULL, &sInfo, &pInfo)) //创建子进程  
     {  
         CloseHandle(hWrite);  
         CloseHandle(hRead);  

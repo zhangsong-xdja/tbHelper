@@ -10,7 +10,7 @@ class AndroidDebugBridge
 public:
 	AndroidDebugBridge(void);
 	virtual ~AndroidDebugBridge(void);
-	bool run(const char * args);
+	virtual bool run();
 private:
 	char curPath[MAX_PATH];
 	char adbPath[MAX_PATH];
@@ -19,5 +19,7 @@ public:
 	virtual void bufferCallback(std::string & strLine) = 0;
 private:
 	void lineParser(void);
+public:
+	virtual const char * getCommand(void) = 0;
 };
 
