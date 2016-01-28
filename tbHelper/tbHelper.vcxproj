@@ -103,12 +103,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Common\CppSQLite3.h" />
+    <ClInclude Include="AndroidDebugBridge.h" />
     <ClInclude Include="CommodityInfoDialog.h" />
     <ClInclude Include="dbOperator.h" />
     <ClInclude Include="InputDialog.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="taobaoController.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TaskInfoDialog.h" />
     <ClInclude Include="tbHelper.h" />
@@ -122,6 +124,7 @@
     <ClCompile Include="..\Common\CppSQLite3.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="AndroidDebugBridge.cpp" />
     <ClCompile Include="CommodityInfoDialog.cpp" />
     <ClCompile Include="dbOperator.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -132,6 +135,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="taobaoController.cpp" />
     <ClCompile Include="TaskInfoDialog.cpp" />
     <ClCompile Include="tbHelper.cpp" />
     <ClCompile Include="tbHelperDoc.cpp" />

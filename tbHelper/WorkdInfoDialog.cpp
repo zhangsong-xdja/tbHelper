@@ -6,6 +6,7 @@
 #include "WorkdInfoDialog.h"
 #include "afxdialogex.h"
 
+#include "taobaoController.h"
 
 // CWorkdInfoDialog 对话框
 
@@ -47,6 +48,8 @@ void CWorkdInfoDialog::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(CWorkdInfoDialog, CDialogEx)
+	ON_BN_CLICKED(IDOK, &CWorkdInfoDialog::OnBnClickedOk)
+	ON_BN_CLICKED(IDCANCEL, &CWorkdInfoDialog::OnBnClickedCancel)
 END_MESSAGE_MAP()
 
 
@@ -73,6 +76,8 @@ BOOL CWorkdInfoDialog::OnInitDialog()
 
 		m_list.InsertColumn( 0, "搜索关键字", LVCFMT_CENTER, 168);//插入列
 
+		for(int i = 0; i < m_t.c.conditions.size(); i++)
+			m_list.InsertItem(i, m_t.c.conditions[i].c_str());
 	}
 
 	{
@@ -91,6 +96,8 @@ BOOL CWorkdInfoDialog::OnInitDialog()
 
 		m_list.InsertColumn( 0, "匹配关键字", LVCFMT_LEFT, 168);//插入列
 
+		for(int i = 0; i < m_t.c.matchs.size(); i++)
+			m_list.InsertItem(i, m_t.c.matchs[i].c_str());
 	}
 
 	{
@@ -112,4 +119,26 @@ BOOL CWorkdInfoDialog::OnInitDialog()
 	}
 	
 	return TRUE;
+}
+
+
+void CWorkdInfoDialog::OnBnClickedOk()
+{
+	//开始刷陶宝的处理
+	taobaoController tc(this);
+	tc.run();
+}
+
+
+void CWorkdInfoDialog::OnBnClickedCancel()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	CDialogEx::OnCancel();
+}
+
+
+void CWorkdInfoDialog::outputInfor(const char * str)
+{
+	log.InsertItem(log.GetItemCount(), str);
+	log.EnsureVisible(log.GetItemCount(), true);
 }

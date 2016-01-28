@@ -308,10 +308,14 @@ void CMainFrame::OnRunTask()
 		return ;
 	}
 
-//	CWorkdInfoDialog dlg(t);
-//	dlg.DoModal();
+	if(!WorkInfoCreator::create(t))
+	{
+		AfxMessageBox("XML文件生成失败！");
+		return ;
+	}
 
-	WorkInfoCreator::create(t);
+	CWorkdInfoDialog dlg(t);
+	dlg.DoModal();
 }
 
 

@@ -13,5 +13,7 @@ public:
 
 private:
 	CWorkdInfoDialog * m_pwnd;
+public:
+	virtual const char * getCommand(void);
 };
 

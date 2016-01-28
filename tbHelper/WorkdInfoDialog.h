@@ -3,6 +3,8 @@
 
 #include "dbOperator.h"
 
+#include "resource.h"
+
 
 // CWorkdInfoDialog ¶Ô»°¿ò
 
@@ -36,4 +38,7 @@ public:
 	virtual BOOL OnInitDialog();
 	CProgressCtrl process;
 	CListCtrl log;
+	afx_msg void OnBnClickedOk();
+	afx_msg void OnBnClickedCancel();
+	void outputInfor(const char * str);
 };
