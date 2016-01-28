@@ -79,24 +79,30 @@ out:
 
 void AndroidDebugBridge::lineParser(void)
 {
-	std::list<char>::iterator it = buffer.begin();
-	for(; it != buffer.end(); it++)
+	while(true)
 	{
-		if((*it) == END_FLAG)
+		std::list<char>::iterator it = buffer.begin();
+		for(; it != buffer.end(); it++)
+		{
+			if((*it) == END_FLAG)
+				break;
+		}
+
+		if(it != buffer.end())
+		{
+			std::string line;
+
+			std::list<char>::iterator end = ++it;
+			for(it = buffer.begin(); it != end; it++)
+			{
+				if(*it != END_FLAG && *it != END_FLAG2)
+					line.push_back(*it);
+			}
+			buffer.erase(buffer.begin(), end);
+
+			bufferCallback(line);
+		}
+		else
 			break;
-	}
-
-	if(it != buffer.end())
-	{
-		std::string line;
-
-		std::list<char>::iterator end = it;
-		for(it = buffer.begin(); it != end; it++)
-			if(*it != END_FLAG && *it != END_FLAG2)
-				line.push_back(*it);
-
-		buffer.erase(buffer.begin(), end);
-
-		bufferCallback(line);
 	}
 }

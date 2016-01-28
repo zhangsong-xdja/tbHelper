@@ -140,5 +140,5 @@ void CWorkdInfoDialog::OnBnClickedCancel()
 void CWorkdInfoDialog::outputInfor(const char * str)
 {
 	log.InsertItem(log.GetItemCount(), str);
-	log.EnsureVisible(log.GetItemCount(), true);
+	log.EnsureVisible(log.GetItemCount() - 1, false);
 }

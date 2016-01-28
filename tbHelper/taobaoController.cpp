@@ -19,5 +19,5 @@ void taobaoController::bufferCallback(std::string & strLine)
 
 const char * taobaoController::getCommand(void)
 {
-	return "adb devices";
+	return "adb shell uiautomator runtest tbContainer.jar -c com.container.container";
 }
