@@ -71,6 +71,8 @@ bool AndroidDebugBridge::run()
     WaitForSingleObject(pInfo.hProcess, INFINITE);  
     CloseHandle(hRead);  
 
+	lineParser();
+
 	return true;
 out:  
 	return false;  
@@ -105,4 +107,27 @@ void AndroidDebugBridge::lineParser(void)
 		else
 			break;
 	}
+}
+
+
+void AndroidDebugBridge::start(void)
+{
+	this->hThread = ::CreateThread(0, 0, (LPTHREAD_START_ROUTINE)this->workThread, (void*)this, 0, 0);
+}
+
+
+void* AndroidDebugBridge::workThread(void* param)
+{
+	AndroidDebugBridge * pThis = (AndroidDebugBridge *)param;
+
+	pThis->run();
+
+	pThis->finishCallback();
+
+	return 0;
+}
+
+
+void AndroidDebugBridge::finishCallback(void)
+{
 }

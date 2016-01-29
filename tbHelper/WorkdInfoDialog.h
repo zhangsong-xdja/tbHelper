@@ -2,6 +2,7 @@
 #include "afxcmn.h"
 
 #include "dbOperator.h"
+#include "taobaoController.h"
 
 #include "resource.h"
 
@@ -25,6 +26,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	task & m_t;
+	taobaoController tc;
 
 	CString taskName;
 	BOOL is_random;
@@ -41,4 +43,6 @@ public:
 	afx_msg void OnBnClickedOk();
 	afx_msg void OnBnClickedCancel();
 	void outputInfor(const char * str);
+	void beginWork(void);
+	void finishWork(void);
 };

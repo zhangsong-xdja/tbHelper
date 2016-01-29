@@ -21,3 +21,9 @@ const char * taobaoController::getCommand(void)
 {
 	return "adb shell uiautomator runtest tbContainer.jar -c com.container.container#runContainer";
 }
+
+
+void taobaoController::finishCallback(void)
+{
+	m_pwnd->finishWork();
+}

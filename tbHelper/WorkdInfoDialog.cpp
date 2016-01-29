@@ -6,8 +6,6 @@
 #include "WorkdInfoDialog.h"
 #include "afxdialogex.h"
 
-#include "taobaoController.h"
-
 // CWorkdInfoDialog 对话框
 
 IMPLEMENT_DYNAMIC(CWorkdInfoDialog, CDialogEx)
@@ -22,8 +20,9 @@ CWorkdInfoDialog::CWorkdInfoDialog(task & t, CWnd* pParent /*=NULL*/)
 	, times_2(t.times_2)
 	, times_3(t.times_3)
 	, commodityName(t.c.name.c_str())
+	, tc(this)
 {
-
+	
 }
 
 CWorkdInfoDialog::~CWorkdInfoDialog()
@@ -117,7 +116,9 @@ BOOL CWorkdInfoDialog::OnInitDialog()
 		m_list.InsertColumn( 0, "运行日志", LVCFMT_LEFT, 368 * 2 + 16);//插入列
 
 	}
-	
+
+	finishWork();
+
 	return TRUE;
 }
 
@@ -125,8 +126,7 @@ BOOL CWorkdInfoDialog::OnInitDialog()
 void CWorkdInfoDialog::OnBnClickedOk()
 {
 	//开始刷陶宝的处理
-	taobaoController tc(this);
-	tc.run();
+	tc.start();
 }
 
 
@@ -141,4 +141,19 @@ void CWorkdInfoDialog::outputInfor(const char * str)
 {
 	log.InsertItem(log.GetItemCount(), str);
 	log.EnsureVisible(log.GetItemCount() - 1, false);
+}
+
+
+void CWorkdInfoDialog::beginWork(void)
+{
+	GetDlgItem(IDOK)->EnableWindow(false);
+	GetDlgItem(IDCANCEL)->EnableWindow(true);
+	log.DeleteAllItems();
+}
+
+
+void CWorkdInfoDialog::finishWork(void)
+{
+	GetDlgItem(IDOK)->EnableWindow(true);
+	GetDlgItem(IDCANCEL)->EnableWindow(false);
 }
