@@ -75,7 +75,7 @@ BOOL CWorkdInfoDialog::OnInitDialog()
 
 		m_list.InsertColumn( 0, "搜索关键字", LVCFMT_CENTER, 168);//插入列
 
-		for(int i = 0; i < m_t.c.conditions.size(); i++)
+		for(unsigned int i = 0; i < m_t.c.conditions.size(); i++)
 			m_list.InsertItem(i, m_t.c.conditions[i].c_str());
 	}
 
@@ -95,7 +95,7 @@ BOOL CWorkdInfoDialog::OnInitDialog()
 
 		m_list.InsertColumn( 0, "匹配关键字", LVCFMT_LEFT, 168);//插入列
 
-		for(int i = 0; i < m_t.c.matchs.size(); i++)
+		for(unsigned int i = 0; i < m_t.c.matchs.size(); i++)
 			m_list.InsertItem(i, m_t.c.matchs[i].c_str());
 	}
 
@@ -127,6 +127,8 @@ void CWorkdInfoDialog::OnBnClickedOk()
 {
 	//开始刷陶宝的处理
 	tc.start();
+
+	beginWork();
 }
 
 
@@ -147,7 +149,7 @@ void CWorkdInfoDialog::outputInfor(const char * str)
 void CWorkdInfoDialog::beginWork(void)
 {
 	GetDlgItem(IDOK)->EnableWindow(false);
-	GetDlgItem(IDCANCEL)->EnableWindow(true);
+	GetDlgItem(IDCANCEL)->EnableWindow(false);
 	log.DeleteAllItems();
 }
 
@@ -155,5 +157,5 @@ void CWorkdInfoDialog::beginWork(void)
 void CWorkdInfoDialog::finishWork(void)
 {
 	GetDlgItem(IDOK)->EnableWindow(true);
-	GetDlgItem(IDCANCEL)->EnableWindow(false);
+	GetDlgItem(IDCANCEL)->EnableWindow(true);
 }

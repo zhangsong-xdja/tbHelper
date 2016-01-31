@@ -12,6 +12,7 @@
 
 #include "tbHelperView.h"
 #include "WorkInfoCreator.h"
+#include "xmlPusher.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -313,6 +314,9 @@ void CMainFrame::OnRunTask()
 		AfxMessageBox("XML文件生成失败！");
 		return ;
 	}
+
+	xmlPusher xp;
+	xp.run();
 
 	CWorkdInfoDialog dlg(t);
 	dlg.DoModal();

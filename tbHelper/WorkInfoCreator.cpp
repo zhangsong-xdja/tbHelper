@@ -135,8 +135,11 @@ bool WorkInfoCreator::create(task & t)
     XMLDeclaration *declaration = doc->NewDeclaration();
     doc->InsertFirstChild(declaration);
 
+	XMLElement * Commoditys = doc->NewElement("Commoditys");
+	XMLNode * root = doc->InsertEndChild(Commoditys);
+
 	XMLElement * Commodity = doc->NewElement("Commodity");
-	XMLNode *element = doc->InsertEndChild(Commodity);
+	XMLNode *element = root->InsertEndChild(Commodity);
 	Commodity->SetAttribute("id", (int)t.id);
 
 	XMLNode * conditions = element->InsertEndChild(doc->NewElement("SearchCondition"));
