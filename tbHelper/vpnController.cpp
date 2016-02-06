@@ -19,5 +19,5 @@ void vpnController::bufferCallback(std::string & strLine)
 
 const char * vpnController::getCommand(void)
 {
-	return "";
+	return "adb shell uiautomator runtest tbScript.jar -c com.uiautomatortest.setVpn2#takeVpnConnect";
 }

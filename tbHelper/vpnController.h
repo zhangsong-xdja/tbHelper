@@ -1,5 +1,6 @@
 #pragma once
 #include "androiddebugbridge.h"
+
 class vpnController :
 	public AndroidDebugBridge
 {
@@ -8,5 +9,6 @@ public:
 	virtual ~vpnController(void);
 
 	virtual void bufferCallback(std::string & strLine);
+	virtual const char * getCommand(void);
 };
 
