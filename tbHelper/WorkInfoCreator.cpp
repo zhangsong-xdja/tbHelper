@@ -163,7 +163,7 @@ bool WorkInfoCreator::create(task & t)
 	{
 		XMLNode * times = element->InsertEndChild(doc->NewElement("times"));
 		CString tmp;
-		tmp.Format("%d", t.times);
+		tmp.Format("%d", 1/*t.times*/); //这里刻意不处理次数
 		XMLText *text = doc->NewText(tmp.GetBuffer(0));
 		times->InsertEndChild(text);
 	}
