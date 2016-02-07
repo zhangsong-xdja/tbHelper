@@ -107,6 +107,7 @@
   <ItemGroup>
     <ClInclude Include="..\Common\CppSQLite3.h" />
     <ClInclude Include="AndroidDebugBridge.h" />
+    <ClInclude Include="commandManager.h" />
     <ClInclude Include="CommodityInfoDialog.h" />
     <ClInclude Include="dbOperator.h" />
     <ClInclude Include="InputDialog.h" />
@@ -120,6 +121,7 @@
     <ClInclude Include="tbHelperDoc.h" />
     <ClInclude Include="tbHelperView.h" />
     <ClInclude Include="tinyxml2.h" />
+    <ClInclude Include="vpnController.h" />
     <ClInclude Include="WorkdInfoDialog.h" />
     <ClInclude Include="WorkInfoCreator.h" />
     <ClInclude Include="xmlPusher.h" />
@@ -130,6 +132,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="AndroidDebugBridge.cpp" />
+    <ClCompile Include="commandManager.cpp" />
     <ClCompile Include="CommodityInfoDialog.cpp" />
     <ClCompile Include="dbOperator.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -150,6 +153,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="vpnController.cpp" />
     <ClCompile Include="WorkdInfoDialog.cpp" />
     <ClCompile Include="WorkInfoCreator.cpp" />
     <ClCompile Include="xmlPusher.cpp" />

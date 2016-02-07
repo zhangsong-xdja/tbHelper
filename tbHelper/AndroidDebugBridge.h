@@ -28,5 +28,6 @@ public:
 	virtual bool run();
 	virtual void start(void);
 	virtual void finishCallback(void);
+	bool getResult(void);
 };
 

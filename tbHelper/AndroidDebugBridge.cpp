@@ -131,3 +131,9 @@ void* AndroidDebugBridge::workThread(void* param)
 void AndroidDebugBridge::finishCallback(void)
 {
 }
+
+
+bool AndroidDebugBridge::getResult(void)
+{
+	return true;
+}

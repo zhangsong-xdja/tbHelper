@@ -72,6 +72,12 @@
     <ClInclude Include="xmlPusher.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="vpnController.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="commandManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tbHelper.cpp">
@@ -120,6 +126,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="xmlPusher.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="vpnController.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="commandManager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

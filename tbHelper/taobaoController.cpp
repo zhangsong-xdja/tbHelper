@@ -25,5 +25,5 @@ const char * taobaoController::getCommand(void)
 
 void taobaoController::finishCallback(void)
 {
-	m_pwnd->finishWork();
+	//m_pwnd->finishWork();
 }

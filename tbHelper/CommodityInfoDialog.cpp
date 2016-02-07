@@ -161,7 +161,7 @@ void CCommodityInfoDialog::OnBnClickedOk()
 	{
 		AfxMessageBox("信息不完整！");
 
-		CDialogEx::OnCancel();
+		return ;
 	}
 
 	c.id = 0;

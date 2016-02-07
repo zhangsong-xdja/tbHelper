@@ -3,6 +3,7 @@
 
 #include "dbOperator.h"
 #include "taobaoController.h"
+#include "commandManager.h"
 
 #include "resource.h"
 
@@ -27,6 +28,7 @@ protected:
 public:
 	task & m_t;
 	taobaoController tc;
+	commandManager cm;
 
 	CString taskName;
 	BOOL is_random;
