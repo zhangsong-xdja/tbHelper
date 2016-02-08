@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "AndroidDebugBridge.h"
-
+#include "stringTransform.h"
 
 AndroidDebugBridge::AndroidDebugBridge(void)
 {
@@ -102,7 +102,12 @@ void AndroidDebugBridge::lineParser(void)
 			}
 			buffer.erase(buffer.begin(), end);
 
-			bufferCallback(line);
+			std::wstring wline;
+			UTF8string2wstring(line, wline);
+			std::string realLine;
+			wstring2string(wline, realLine);
+
+			bufferCallback(realLine);
 		}
 		else
 			break;
