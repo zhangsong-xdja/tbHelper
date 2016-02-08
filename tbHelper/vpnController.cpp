@@ -1,9 +1,10 @@
 #include "stdafx.h"
 #include "vpnController.h"
+#include "WorkdInfoDialog.h"
 
-
-vpnController::vpnController(void)
+vpnController::vpnController(CWorkdInfoDialog * p)
 {
+	m_pwnd = p;
 }
 
 
@@ -14,6 +15,7 @@ vpnController::~vpnController(void)
 
 void vpnController::bufferCallback(std::string & strLine)
 {
+	m_pwnd->outputInfor(strLine.c_str());
 }
 
 
