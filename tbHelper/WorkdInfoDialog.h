@@ -4,6 +4,8 @@
 #include "dbOperator.h"
 #include "taobaoController.h"
 #include "commandManager.h"
+#include "vpnController.h"
+#include "netQuality.h"
 
 #include "resource.h"
 
@@ -29,6 +31,7 @@ public:
 	task & m_t;
 	taobaoController tc;
 	commandManager cm;
+	vpnController vc;
 
 	CString taskName;
 	BOOL is_random;

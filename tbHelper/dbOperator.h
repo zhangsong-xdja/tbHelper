@@ -63,6 +63,10 @@ public:
 class taskRecord
 {
 public :
+	string begin_time;
+	string finish_time;
+	bool status;
+	string describe;
 };
 
 class dbOperator
@@ -95,7 +99,7 @@ public:
 	bool deleteTask(int id);
 	bool deleteCommodity(int id);
 	int getTaskRecordCountByID(sqlite_int64 id);
-	bool getTaskRecordByID(sqlite_int64 id);
+	bool getTaskRecordByID(sqlite_int64 id, vector<taskRecord> &rl);
 	bool getTask(int ID, task & t);
 };
 

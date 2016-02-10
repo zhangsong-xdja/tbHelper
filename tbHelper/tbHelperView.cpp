@@ -233,3 +233,34 @@ int CtbHelperView::getSelectedTaskID(void)
 	return -1;
 
 }
+
+
+void CtbHelperView::showRecord(vector<taskRecord> & rl)
+{
+	m_currentState = STAT_TASK;
+
+	CListCtrl & l = GetListCtrl();
+
+	l.DeleteAllItems();
+
+	while ( l.DeleteColumn (0));
+
+	l.InsertColumn(0, "任务开始时间", LVCFMT_CENTER, 88);
+	l.InsertColumn(1, "任务完成时间", LVCFMT_CENTER, 88);
+	l.InsertColumn(2, "任务执行结果", LVCFMT_CENTER, 188);
+	l.InsertColumn(3, "任务执行描述", LVCFMT_CENTER, 288);
+	
+	for(int i = 0; i < rl.size(); i++)
+	{
+		CString tmp;
+
+		l.InsertItem(i, rl[i].begin_time.c_str());
+
+		l.SetItemText(i, 1, rl[i].finish_time.c_str());
+
+		tmp.Format("%s", rl[i].status == 0 ? "执行失败" : "执行成功");
+		l.SetItemText(i, 2, tmp);
+
+		l.SetItemText(i, 3, rl[i].describe.c_str());
+	}
+}

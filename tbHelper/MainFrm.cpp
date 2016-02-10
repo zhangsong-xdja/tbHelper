@@ -283,6 +283,22 @@ void CMainFrame::OnUpdateShowTask(CCmdUI *pCmdUI)
 void CMainFrame::OnShowTaskrecord()
 {
 	// TODO: 在此添加命令处理程序代码
+	CtbHelperView * pview = (CtbHelperView *)GetActiveView();
+	int id = pview->getSelectedTaskID();
+	if(id <= 0)
+	{
+		AfxMessageBox("必须是有效的taskID");
+		return ;
+	}
+
+	vector<taskRecord> rl;
+	if(!db.getTaskRecordByID(id, rl))
+	{
+		AfxMessageBox("查询任务记录失败！");
+		return ;
+	}
+
+	pview->showRecord(rl);
 }
 
 

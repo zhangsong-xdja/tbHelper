@@ -22,6 +22,7 @@ CWorkdInfoDialog::CWorkdInfoDialog(task & t, CWnd* pParent /*=NULL*/)
 	, commodityName(t.c.name.c_str())
 	, tc(this)
 	, cm(this)
+	, vc(this)
 {
 	
 }
@@ -126,11 +127,19 @@ BOOL CWorkdInfoDialog::OnInitDialog()
 
 void CWorkdInfoDialog::OnBnClickedOk()
 {
+#if 0
 	//开始刷陶宝的处理
 	for(int i = 0; i < m_t.times; i++)
 	{
 		cm.insertAdb(&tc);
+		if((i + 1) % 5 == 0 && i+1 != m_t.times)
+			cm.insertAdb(&vc);
 	}
+	cm.insertAdb(&vc);
+#else if
+	cm.insertAdb(&tc);
+	cm.insertAdb(&vc);
+#endif
 
 	cm.run();
 

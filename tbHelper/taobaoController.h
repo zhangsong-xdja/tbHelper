@@ -1,5 +1,6 @@
 #pragma once
 #include "androiddebugbridge.h"
+#include "dbOperator.h"
 
 class CWorkdInfoDialog;
 
@@ -13,6 +14,8 @@ public:
 
 private:
 	CWorkdInfoDialog * m_pwnd;
+	dbOperator db;
+
 public:
 	virtual const char * getCommand(void);
 	virtual void finishCallback(void);

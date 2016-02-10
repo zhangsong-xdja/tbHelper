@@ -54,6 +54,7 @@ public:
 	void showTask(vector<task> & tl);
 	int getSelectedCommodityID(void);
 	int getSelectedTaskID(void);
+	void showRecord(vector<taskRecord> & rl);
 };
 
 #ifndef _DEBUG  // tbHelperView.cpp 中的调试版本

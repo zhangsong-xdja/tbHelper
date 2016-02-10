@@ -15,5 +15,9 @@ public:
 
 private:
 	CWorkdInfoDialog * m_pwnd;
+	bool m_vpnConnected;
+	bool m_netQuality;
+public:
+	virtual bool getResult(void);
 };
 

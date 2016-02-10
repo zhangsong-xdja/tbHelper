@@ -124,13 +124,13 @@ bool dbOperator::insertCommodity(string name, vector<string> conditions, vector<
 bool dbOperator::recordTask(sqlite_int64 task_id, string begin_time, bool status, string describe)
 {
 	try{
-		char tmp[128] = {0};
-		sprintf(tmp, "insert into task (task_id, begintime, endtime, status, describe) values(%lld, \"%s\", datetime(), %d, \"", 
+		char tmp[512] = {0};
+		sprintf(tmp, "insert into taskRecord (task_id, begintime, endtime, status, describe) values(%lld, '%s', datetime('now','+8 hour'), %d, '", 
 			task_id, begin_time.c_str(), status);
 		string str_cmd_of_record_task = tmp;
 		str_cmd_of_record_task += describe;
-		str_cmd_of_record_task += "\");";
-
+		str_cmd_of_record_task += "');";
+	
 		return db.execDML(str_cmd_of_record_task.c_str()) > 0;
 	}
 	catch (CppSQLite3Exception & e)
@@ -258,12 +258,14 @@ string dbOperator::getDatabaseTime(void)
 {
 	try{
 		char str_cmd_of_select_datetime[128] = {0};
-		sprintf(str_cmd_of_select_datetime, "select datetime();");
+		sprintf(str_cmd_of_select_datetime, "select datetime('now','+8 hour');");
 		CppSQLite3Query q = db.execQuery(str_cmd_of_select_datetime);
 		if(q.numFields() != 1 || q.eof())
 			return false;
-
-		return string(q.getStringField(0));
+		const char * name = q.fieldName(0);
+		const char * time = q.fieldValue(name);
+		
+		return string(time);
 	}
 	catch (CppSQLite3Exception & e)
 	{
@@ -493,8 +495,36 @@ bool dbOperator::deleteCommodity(int id)
 	return false;
 }
 
-bool dbOperator::getTaskRecordByID(sqlite_int64 id)
+bool dbOperator::getTaskRecordByID(sqlite_int64 id, vector<taskRecord> &rl)
 {
+	//id integer primary key, task_id integer, begintime datetime, endtime datetime, "
+	//	"status boolean, describe string);";
+
+	try{
+		char str_cmd_of_query_taskRecord[128] = {0};
+		sprintf(str_cmd_of_query_taskRecord, "select begintime, endtime, status, describe from taskRecord where task_id = %lld;", id);
+		CppSQLite3Query q = db.execQuery(str_cmd_of_query_taskRecord);
+		if(q.numFields() != 4 || q.eof())
+			return false;
+
+		while(!q.eof())
+		{
+			taskRecord tr;
+			tr.begin_time = q.getStringField("begintime");
+			tr.finish_time = q.getStringField("endtime");
+			tr.status = q.getIntField("status") != 0;
+			tr.describe = q.getStringField("describe");
+
+			rl.push_back(tr);
+
+			q.nextRow();
+		}
+		return true;
+	}
+	catch (CppSQLite3Exception & e)
+	{
+		cerr << e.errorCode() << ":" << e.errorMessage() << endl;
+	}
 	return false;
 }
 
