@@ -50,4 +50,6 @@ public:
 	void outputInfor(const char * str);
 	void beginWork(void);
 	void finishWork(void);
+	void addProcessPos(void);
+	BOOL m_mbVpn;
 };

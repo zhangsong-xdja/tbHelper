@@ -70,7 +70,7 @@ BOOL CTaskInfoDialog::OnInitDialog()
 	for(int i = 0; i < cl.size(); i++)
 		m_infos.AddString(cl[i].name.c_str());
 
-	m_infos.SetCurSel(1);
+	m_infos.SetCurSel(0);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 }

@@ -44,11 +44,13 @@ void taobaoController::bufferCallback(std::string & strLine)
 			else if(strstr(str, "TASK SUCCESS"))
 			{
 				db.recordTask((sqlite_int64)taskID, begin_time, 1, string(Vpn.GetBuffer(0)));
+				m_pwnd->addProcessPos();
 			}
 			else
 			{
 				string status = string(&str[pos[2] + 1], pos[3] - pos[2] - 1);
 				db.recordTask((sqlite_int64)taskID, begin_time, 0, status);
+				m_pwnd->addProcessPos();
 			}
 			
 		}

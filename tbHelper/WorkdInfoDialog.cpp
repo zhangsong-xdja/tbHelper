@@ -23,6 +23,7 @@ CWorkdInfoDialog::CWorkdInfoDialog(task & t, CWnd* pParent /*=NULL*/)
 	, tc(this)
 	, cm(this)
 	, vc(this)
+	, m_mbVpn(FALSE)
 {
 	
 }
@@ -45,6 +46,7 @@ void CWorkdInfoDialog::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_LIST3, conditionList);
 	DDX_Control(pDX, IDC_PROGRESS1, process);
 	DDX_Control(pDX, IDC_LIST1, log);
+	DDX_Check(pDX, IDC_CHECK2, m_mbVpn);
 }
 
 
@@ -127,19 +129,26 @@ BOOL CWorkdInfoDialog::OnInitDialog()
 
 void CWorkdInfoDialog::OnBnClickedOk()
 {
-#if 0
+	UpdateData();
+
+	process.SetRange(0, m_t.times);
+	process.SetStep(1);
+	process.SetPos(0);
+
 	//开始刷陶宝的处理
 	for(int i = 0; i < m_t.times; i++)
 	{
 		cm.insertAdb(&tc);
-		if((i + 1) % 5 == 0 && i+1 != m_t.times)
-			cm.insertAdb(&vc);
+
+		if(m_mbVpn)
+		{
+			if((i + 1) % 5 == 0 && i+1 != m_t.times)
+				cm.insertAdb(&vc);
+		}
 	}
-	cm.insertAdb(&vc);
-#else if
-	cm.insertAdb(&tc);
-	cm.insertAdb(&vc);
-#endif
+
+	if(m_mbVpn)
+		cm.insertAdb(&vc);
 
 	cm.run();
 
@@ -173,4 +182,10 @@ void CWorkdInfoDialog::finishWork(void)
 {
 	GetDlgItem(IDOK)->EnableWindow(true);
 	GetDlgItem(IDCANCEL)->EnableWindow(true);
+}
+
+
+void CWorkdInfoDialog::addProcessPos(void)
+{
+	process.SetPos(process.GetPos() + 1);
 }

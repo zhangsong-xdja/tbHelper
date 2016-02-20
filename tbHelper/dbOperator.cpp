@@ -481,7 +481,7 @@ bool dbOperator::deleteCommodity(int id)
 		db.execDML(str_cmd_of_delete_task);
 
 		char str_cmd_of_delete_commodity[128] = {0};
-		sprintf(str_cmd_of_delete_commodity, "delete from commodity where id = %d;", id);
+		sprintf(str_cmd_of_delete_commodity, "delete from commodity where id = %d;delete from match where c_id = %d;delete from condition where c_id = %d;", id, id, id);
 
 		db.execDML(str_cmd_of_delete_commodity);
 		
