@@ -379,7 +379,7 @@ void CMainFrame::OnDeleteTask()
 	CtbHelperView * pview = (CtbHelperView *)GetActiveView();
 
 	if(pview->getSelectedTaskID() >= 0)
-		db.deleteCommodity(pview->getSelectedTaskID());
+		db.deleteTask(pview->getSelectedTaskID());
 }
 
 

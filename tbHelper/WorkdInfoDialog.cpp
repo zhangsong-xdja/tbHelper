@@ -24,6 +24,8 @@ CWorkdInfoDialog::CWorkdInfoDialog(task & t, CWnd* pParent /*=NULL*/)
 	, cm(this)
 	, vc(this)
 	, m_mbVpn(FALSE)
+	, share(t.c.share.c_str())
+	, link(t.c.link.c_str())
 {
 	
 }
@@ -47,6 +49,8 @@ void CWorkdInfoDialog::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_PROGRESS1, process);
 	DDX_Control(pDX, IDC_LIST1, log);
 	DDX_Check(pDX, IDC_CHECK2, m_mbVpn);
+	DDX_Text(pDX, IDC_EDIT8, share);
+	DDX_Text(pDX, IDC_EDIT9, link);
 }
 
 

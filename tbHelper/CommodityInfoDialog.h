@@ -34,4 +34,6 @@ public:
 	afx_msg void OnBnClickedOk();
 
 	commodity & getCommodity(void);
+	CString share;
+	CString link;
 };

@@ -110,6 +110,8 @@ void CtbHelperView::showCommodity(vector<commodity> & cl)
 	l.InsertColumn(1, "商品名称", LVCFMT_CENTER, 68);
 	l.InsertColumn(2, "搜索关键字", LVCFMT_CENTER, 168);
 	l.InsertColumn(3, "匹配关键字", LVCFMT_CENTER, 168);
+	l.InsertColumn(4, "商品分享", LVCFMT_CENTER, 168);
+	l.InsertColumn(5, "商品连接", LVCFMT_CENTER, 168);
 
 	for(int i = 0; i < cl.size(); i++)
 	{
@@ -136,6 +138,8 @@ void CtbHelperView::showCommodity(vector<commodity> & cl)
 				matchs += ";";
 		}
 		l.SetItemText(i, 3, matchs);
+		l.SetItemText(i, 4, cl[i].share.c_str());
+		l.SetItemText(i, 5, cl[i].link.c_str());
 
 		l.SetItemData(i, cl[i].id);
 	}

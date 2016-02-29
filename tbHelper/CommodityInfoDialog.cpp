@@ -15,6 +15,8 @@ IMPLEMENT_DYNAMIC(CCommodityInfoDialog, CDialogEx)
 CCommodityInfoDialog::CCommodityInfoDialog(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CCommodityInfoDialog::IDD, pParent)
 	, name(_T(""))
+	, share(_T(""))
+	, link(_T(""))
 {
 
 }
@@ -29,6 +31,8 @@ void CCommodityInfoDialog::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_LIST1, conditionList);
 	DDX_Control(pDX, IDC_LIST2, matchList);
 	DDX_Text(pDX, IDC_EDIT_NAME, name);
+	DDX_Text(pDX, IDC_EDIT_NAME2, share);
+	DDX_Text(pDX, IDC_EDIT_NAME3, link);
 }
 
 
@@ -147,6 +151,9 @@ BOOL CCommodityInfoDialog::OnInitDialog()
 	}
 
 	name = "测试商品";
+	share = "测试share";
+	link = "测试link";
+
 	UpdateData(0);
 
 	return TRUE;
@@ -157,15 +164,28 @@ void CCommodityInfoDialog::OnBnClickedOk()
 {
 	// TODO: 在此添加控件通知处理程序代码
 	UpdateData();
-	if(name.GetLength() == 0 || matchList.GetItemCount() == 0 || conditionList.GetItemCount() == 0)
+	if(name.GetLength() == 0)
 	{
-		AfxMessageBox("信息不完整！");
+		AfxMessageBox("商品名称不能为空！");
+
+		return ;
+	}
+
+	if(
+		(matchList.GetItemCount() == 0 || conditionList.GetItemCount() == 0) &&
+		share.GetLength() == 0 &&
+		link.GetLength() == 0
+		)
+	{
+		AfxMessageBox("商品信息不完整！");
 
 		return ;
 	}
 
 	c.id = 0;
 	c.name = name.GetBuffer(0);
+	c.share = share;
+	c.link = link;
 
 	for(int i = 0; i < conditionList.GetItemCount(); i++)
 	{

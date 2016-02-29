@@ -29,9 +29,12 @@ bool WorkInfoCreator::create(task & t)
 		return false;
 	if(t.c.name.length() <= 0)
 		return false;
-	if(t.c.conditions.size() <= 0)
-		return false;
-	if(t.c.matchs.size() <= 0)
+
+	if(
+		(t.c.conditions.size() <= 0 || t.c.matchs.size() <= 0) &&
+		t.c.link.size() <= 0 &&
+		t.c.share.size() <= 0
+		)
 		return false;
 		
 	//开始生成xml（此时还不是utf8）
@@ -105,6 +108,17 @@ bool WorkInfoCreator::create(task & t)
 		Goon->InsertEndChild(text);
 	}
 
+	{
+		XMLNode * Share = element->InsertEndChild(doc->NewElement("Share"));
+		XMLText *text = doc->NewText(t.c.share.c_str());
+		Share->InsertEndChild(text);
+	}
+
+	{
+		XMLNode * Link = element->InsertEndChild(doc->NewElement("Link"));
+		XMLText *text = doc->NewText(t.c.link.c_str());
+		Link->InsertEndChild(text);
+	}
 	//xml转换为UTF8格式进行存储
 	XMLPrinter printer;
 	doc->Accept(&printer);

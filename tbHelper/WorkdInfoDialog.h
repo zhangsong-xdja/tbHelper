@@ -52,4 +52,6 @@ public:
 	void finishWork(void);
 	void addProcessPos(void);
 	BOOL m_mbVpn;
+	CString share;
+	CString link;
 };

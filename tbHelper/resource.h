@@ -29,6 +29,7 @@
 #define IDC_BUTTON_ADD_CONDITION        1003
 #define IDC_LIST3                       1003
 #define IDC_EDIT1                       1004
+#define IDC_EDIT_NAME2                  1004
 #define IDC_BUTTON_DEL_CONDITION        1005
 #define IDC_CHECK1                      1005
 #define IDC_BUTTON_ADD_MATCH            1006
@@ -36,12 +37,15 @@
 #define IDC_BUTTON_DEL_MATCH            1007
 #define IDC_EDIT3                       1007
 #define IDC_EDIT4                       1008
+#define IDC_EDIT_NAME3                  1008
 #define IDC_COMBO1                      1009
 #define IDC_EDIT6                       1009
 #define IDC_EDIT5                       1010
 #define IDC_PROGRESS1                   1010
 #define IDC_EDIT7                       1011
 #define IDC_CHECK2                      1012
+#define IDC_EDIT8                       1013
+#define IDC_EDIT9                       1014
 #define ID_Menu                         32771
 #define ID_CREATE_COMMODITY             32772
 #define ID_32773                        32773

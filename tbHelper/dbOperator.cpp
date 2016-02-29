@@ -34,6 +34,18 @@ void dbOperator::createDatabase(void)
 	const char * str_cmd_of_create_match_table = "create table if not exists match(c_id integer, match string);";
 
 	/*
+		c_id是所属商品id
+		link是商品链接
+	*/
+	const char * str_cmd_of_create_link_table = "create table if not exists link(c_id integer, link string);";
+
+	/*
+		c_id是所属商品id
+		share是商品分享
+	*/
+	const char * str_cmd_of_create_share_table = "create table if not exists share(c_id integer, share string);";
+
+	/*
 		id是任务的唯一标识
 		c_id是所属商品id
 		random是否随机流量另外一个商品
@@ -62,6 +74,8 @@ void dbOperator::createDatabase(void)
 		db.execDML(str_cmd_of_create_match_table);
 		db.execDML(str_cmd_of_create_task_table);
 		db.execDML(str_cmd_of_create_taskRecord_table);
+		db.execDML(str_cmd_of_create_share_table);
+		db.execDML(str_cmd_of_create_link_table);
 	}
 	catch (CppSQLite3Exception & e)
     {
@@ -70,9 +84,16 @@ void dbOperator::createDatabase(void)
 }
 
 
-bool dbOperator::insertCommodity(string name, vector<string> conditions, vector<string> matchs)
+bool dbOperator::insertCommodity(string name, vector<string> conditions, vector<string> matchs, string share, string link)
 {
-	if(name.size() <= 0 || conditions.size() <= 0 || matchs.size() <= 0)
+	if(name.size() <= 0)
+		return false;
+
+	if(
+		(conditions.size() <= 0 || matchs.size() <= 0) &&
+		link.size() <= 0 &&
+		share.size() <= 0
+		)
 		return false;
 
 	string str_cmd_of_insert_commodity = "insert into commodity (name) values (\"";
@@ -108,6 +129,26 @@ bool dbOperator::insertCommodity(string name, vector<string> conditions, vector<
 			str_cmd_of_insert_match += "\");";
 
 			db.execDML(str_cmd_of_insert_match.c_str());
+		}
+
+		if(share.size())
+		{
+			char str_cmd_of_insert_share_tmp[128] = {0};
+			sprintf(str_cmd_of_insert_share_tmp, "insert into share(c_id, share) values(%lld, '", c_id);
+			string str_cmd_of_insert_share = str_cmd_of_insert_share_tmp;
+			str_cmd_of_insert_share += share;
+			str_cmd_of_insert_share += "');";
+			db.execDML(str_cmd_of_insert_share.c_str());
+		}
+
+		if(link.size())
+		{
+			char str_cmd_of_insert_link_tmp[128] = {0};
+			sprintf(str_cmd_of_insert_link_tmp, "insert into link (c_id, link) values(%lld, '", c_id);
+			string str_cmd_of_insert_link = str_cmd_of_insert_link_tmp;
+			str_cmd_of_insert_link += link;
+			str_cmd_of_insert_link += "');";
+			db.execDML(str_cmd_of_insert_link.c_str());
 		}
 
 		return true;
@@ -161,7 +202,7 @@ bool dbOperator::insertTask(string name, sqlite_int64 c_id, bool random, int tim
 
 bool dbOperator::insertCommodity(commodity c)
 {
-	return insertCommodity(c.name, c.conditions, c.matchs);
+	return insertCommodity(c.name, c.conditions, c.matchs, c.share, c.link);
 }
 
 
@@ -170,6 +211,70 @@ bool dbOperator::insertTask(task t)
 	return insertTask(t.name, t.c.id, t.random, t.times, t.times_1, t.times_2, t.times_3);
 }
 
+
+
+bool dbOperator::getCommodityExtInfo(commodity & c)
+{
+	try{
+		sqlite_int64 id = c.id;
+		
+		char str_cmd_query_condition[128] = {0};
+		sprintf(str_cmd_query_condition, "select condition from condition where c_id = %lld;", id);
+		CppSQLite3Query q2 = db.execQuery(str_cmd_query_condition);
+		if(q2.numFields() != 1)
+			return false;
+
+		while(!q2.eof())
+		{
+			c.conditions.push_back(q2.getStringField("condition"));
+			q2.nextRow();
+		}
+
+		char str_cmd_of_query_match[128] = {0};
+		sprintf(str_cmd_of_query_match, "select match from match where c_id = %lld;", id);
+		CppSQLite3Query q3 = db.execQuery(str_cmd_of_query_match);
+		if(q3.numFields() != 1)
+			return false;
+
+		while(!q3.eof())
+		{
+			c.matchs.push_back(q3.getStringField("match"));
+			q3.nextRow();
+		}
+
+		char str_cmd_of_query_share[128] = {0};
+		sprintf(str_cmd_of_query_share, "select share from share where c_id = %lld;", id);
+		CppSQLite3Query q4 = db.execQuery(str_cmd_of_query_share);
+		if(q4.numFields() != 1)
+			return false;
+
+		while(!q4.eof())
+		{
+			c.share = q4.getStringField("share");
+			q4.nextRow();
+		}
+
+		char str_cmd_of_query_link[128] = {0};
+		sprintf(str_cmd_of_query_link, "select link from link where c_id = %lld;", id);
+		CppSQLite3Query q5 = db.execQuery(str_cmd_of_query_link);
+		if(q5.numFields() != 1)
+			return false;
+
+		while(!q5.eof())
+		{
+			c.link = q5.getStringField("link");
+			q5.nextRow();
+		}
+
+		return true;
+	}
+	catch (CppSQLite3Exception & e)
+	{
+		cerr << e.errorCode() << ":" << e.errorMessage() << endl;
+	}
+
+	return false;
+}
 
 bool dbOperator::getCommodity(string name, commodity & c)
 {
@@ -188,32 +293,9 @@ bool dbOperator::getCommodity(string name, commodity & c)
 			return false;
 
 		c.id = id;
+		c.name = name;
 
-		char str_cmd_query_condition[128] = {0};
-		sprintf(str_cmd_query_condition, "select condition from condition where c_id = %lld;", id);
-		CppSQLite3Query q2 = db.execQuery(str_cmd_query_condition);
-		if(q2.numFields() != 1 || q2.eof())
-			return false;
-
-		while(!q2.eof())
-		{
-			c.conditions.push_back(q2.getStringField("condition"));
-			q2.nextRow();
-		}
-
-		char str_cmd_of_query_match[128] = {0};
-		sprintf(str_cmd_of_query_match, "select match from match where c_id = %lld;", id);
-		CppSQLite3Query q3 = db.execQuery(str_cmd_of_query_match);
-		if(q3.numFields() != 1 || q3.eof())
-			return false;
-
-		while(!q3.eof())
-		{
-			c.matchs.push_back(q3.getStringField("match"));
-			q3.nextRow();
-		}
-
-		return true;
+		return getCommodityExtInfo(c);
 	}
 	catch (CppSQLite3Exception & e)
 	{
@@ -398,31 +480,7 @@ bool dbOperator::getCommodity(sqlite_int64 id, commodity & c)
 		c.id = id;
 		c.name = q.getStringField("name");
 
-		char str_cmd_query_condition[128] = {0};
-		sprintf(str_cmd_query_condition, "select condition from condition where c_id = %lld;", id);
-		CppSQLite3Query q2 = db.execQuery(str_cmd_query_condition);
-		if(q2.numFields() != 1 || q2.eof())
-			return false;
-
-		while(!q2.eof())
-		{
-			c.conditions.push_back(q2.getStringField("condition"));
-			q2.nextRow();
-		}
-
-		char str_cmd_of_query_match[128] = {0};
-		sprintf(str_cmd_of_query_match, "select match from match where c_id = %lld;", id);
-		CppSQLite3Query q3 = db.execQuery(str_cmd_of_query_match);
-		if(q3.numFields() != 1 || q3.eof())
-			return false;
-
-		while(!q3.eof())
-		{
-			c.matchs.push_back(q3.getStringField("match"));
-			q3.nextRow();
-		}
-
-		return true;
+		return getCommodityExtInfo(c);
 	}
 	catch (CppSQLite3Exception & e)
 	{
@@ -437,10 +495,10 @@ bool dbOperator::deleteTask(int id)
 {
 	try{
 		char str_cmd_of_delete_task[128] = {0};
-		sprintf(str_cmd_of_delete_task, "delete from task where id = %d;", id);
+		sprintf(str_cmd_of_delete_task, "delete from task where id = %d;delete from taskRecord where task_id = %d;", id, id);
 
 		db.execDML(str_cmd_of_delete_task);
-		
+
 		return true;
 	}
 	catch (CppSQLite3Exception & e)
